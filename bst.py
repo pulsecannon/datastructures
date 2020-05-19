@@ -54,15 +54,36 @@ class Node(object):
             self._right.traverse_postorder(callback_fn)
         callback_fn(self.value)
 
-    def height(self):
+    def get_height(self):
         if self._right is None or self._right is None:
             return 1
         elif self._right is not None:
-            return 1 + self._right.height()
+            return 1 + self._right.get_height()
         elif self._left is not None:
-            return 1 + self._left.height()
+            return 1 + self._left.get_height()
         else:
-            return 1 + max(self._left.height(), self._right.height())
+            return 1 + max(self._left.get_height(), self._right.get_height())
 
+    @property
     def is_balanced(self):
-        return abs(self._left.height() - self._right.height()) <= 1
+        return abs(self._left.get_height() - self._right.get_height()) <= 1
+
+    def rebalance(self):
+        if self.is_balanced:
+            return
+        sorted_data = []
+        self.traverse_inorder(sorted_data.append)
+        return self._rebalance(sorted_data, 1, len(sorted_data) - 1)
+
+    def _rebalance(self, arr, left, right):
+        if left > right:
+            return
+        mid = (left + right) // 2
+        self = Node(arr[mid])
+        self._left = self._rebalance(arr, left, mid - 1)
+        self._right = self._rebalance(arr, mid + 1, right)
+        return self
+
+
+
+

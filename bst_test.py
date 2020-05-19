@@ -66,7 +66,7 @@ class BSTTest(unittest.TestCase):
         head.add(14)
         head.add(18)
 
-        self.assertEqual(head.height(), 5)
+        self.assertEqual(head.get_height(), 5)
 
     def test_is_balanced(self):
         head = bst.Node(10)
@@ -75,7 +75,20 @@ class BSTTest(unittest.TestCase):
         head.add(13)
         head.add(14)
         head.add(18)
-        self.assertFalse(head.is_balanced())
+        self.assertFalse(head.is_balanced)
+
+    def test_rebalanced(self):
+        head = bst.Node(10)
+        head.add(11)
+        head.add(9)
+        head.add(13)
+        head.add(14)
+        head.add(18)
+        self.assertFalse(head.is_balanced)
+        print(head.get_height())
+        head = head.rebalance()
+        self.assertTrue(head.is_balanced)
+        print(head.get_height())
 
 
 if __name__ == '__main__':
